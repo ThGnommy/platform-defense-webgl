@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80edd6caba93514eb01722041fe50b4, type: 3}
+  m_Name: Spikes random brush
+  m_EditorClassIdentifier: 
+  m_Cells:
+  - m_Tile: {fileID: 0}
+    m_Matrix:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Pivot: {x: 0, y: 0, z: 0}
+  randomTiles:
+  - {fileID: 11400000, guid: ed2b96aeaa34f4c49be5b095815e0967, type: 2}
+  - {fileID: 11400000, guid: e1845e85bd35de647b812f1494617cea, type: 2}
+  - {fileID: 11400000, guid: f53eb7ca9315c8c4bb050861f8fbd0db, type: 2}
+  - {fileID: 11400000, guid: 229e0c0de745bf4419013b809f020d48, type: 2}
+  - {fileID: 11400000, guid: 62af38af58f42d74380d133f269bb41e, type: 2}
+  - {fileID: 11400000, guid: 1392080f074d6904ea3acdd973514edb, type: 2}
+  - {fileID: 11400000, guid: 7d02fb39e1e265c4aa3ad7095a12fb01, type: 2}
+  - {fileID: 11400000, guid: 438366311b8778e46b981d89067c1a3a, type: 2}
+  - {fileID: 11400000, guid: 67640075ecc21e14983122de72fc29b8, type: 2}
+  - {fileID: 11400000, guid: 2c0d77500d25881449c3b2de38d913ad, type: 2}
+  - {fileID: 11400000, guid: 68263e67232f4b342a433f5fa6042ea4, type: 2}
+  - {fileID: 11400000, guid: 0bb6f716ab0e93b4aad308d4b6f1420a, type: 2}
+  - {fileID: 11400000, guid: cc8279e5ccb08be42bd9a17f6cab0017, type: 2}
+  - {fileID: 11400000, guid: 02c68a1b09a511f41a796b8d78b326a5, type: 2}
+  - {fileID: 11400000, guid: d7e920d36fa9b4b41b2491fed61c5ee3, type: 2}
+  - {fileID: 11400000, guid: 5a9e2f1f26288fd4a9d15bfd0728a52d, type: 2}
