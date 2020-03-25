@@ -83,3 +83,10 @@ sysinfo.txt
 crashlytics-build.properties
 
 >>>>>>> bbc51efa548efffdca3de73873ceafad3a4d112a
+
+# Fmod
+
+/Assets/FMODStudioCache.asset
+/Assets/FMODStudioCache.asset.meta
+fmod.log
+fmod_editor.log
