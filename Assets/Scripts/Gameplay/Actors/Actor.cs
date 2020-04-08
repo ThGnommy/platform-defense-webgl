@@ -23,7 +23,8 @@ public abstract class Actor : MonoBehaviour {
 	private const float MIN_GROUND_NORMAL_Y = 0.65f;
 
 	// state:
-	protected Vector2 velocity;
+	[HideInInspector]
+	public Vector2 velocity;
 	protected float velocityXRef;
 	protected Vector2 inheritedVelocity;
 

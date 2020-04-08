@@ -3,6 +3,27 @@ using UnityEngine;
 using UnityEngine.Audio;
 public class SoundManager : MonoBehaviour
 {
+    // FMOD
+    [FMODUnity.EventRef]
+    public string footsteps;
+    [FMODUnity.EventRef]
+    public string jump;
+    [FMODUnity.EventRef]
+    public string land;
+
+    // Footsteps
+    FMOD.Studio.EventInstance footstepsEv;
+    FMOD.Studio.PARAMETER_DESCRIPTION MaterialDescription;
+    FMOD.Studio.PARAMETER_ID Material_ID;
+    int m_Material;
+
+    // Land 
+    FMOD.Studio.EventInstance landEv;
+    FMOD.Studio.EventDescription LandDescription;
+    FMOD.Studio.PARAMETER_DESCRIPTION ImpactDescription;
+    FMOD.Studio.PARAMETER_ID Impact_ID;
+    int m_Impact;
+
     public AudioSource sfxSource;
     public AudioSource musicSource;
     public AudioMixerGroup environmentOutputChannel;
@@ -23,10 +44,29 @@ public class SoundManager : MonoBehaviour
 
     public void Awake() {
         SoundManager.instance = this;
-
         // begin playing music
         this.musicSource.Play();
         this.sfxSource.outputAudioMixerGroup = this.environmentOutputChannel;
+    }
+
+    private void Start()
+    {
+        footstepsEv = FMODUnity.RuntimeManager.CreateInstance(footsteps);
+        FMODUnity.RuntimeManager.StudioSystem.getParameterDescriptionByName("Material", out MaterialDescription);
+        Material_ID = MaterialDescription.id;
+
+        landEv = FMODUnity.RuntimeManager.CreateInstance(land);
+        landEv.getDescription(out LandDescription);
+        LandDescription.getParameterDescriptionByName("Impact", out ImpactDescription);
+        Impact_ID = ImpactDescription.id;
+    }
+
+    private void Update()
+    {
+        if(player.velocity[1] <= 0)
+        {
+            SetLandParameter();
+        }
     }
 
     public void SetZone(MaterialZone.Zone zone) {
@@ -55,6 +95,50 @@ public class SoundManager : MonoBehaviour
         }
 
         PlaySfx(id);
+        FMODUnity.RuntimeManager.PlayOneShot(jump, transform.position);
+    }
+
+    private bool LandSoftSfx()
+    {
+        float p_Vel = player.velocity[1];
+
+        if(p_Vel > -50 && p_Vel < -30)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool LandHardSfx()
+    {
+        float p_Vel = player.velocity[1];
+
+        if (p_Vel < -50)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void SetLandParameter()
+    {
+        if(!LandSoftSfx() && !LandHardSfx()) 
+        { 
+            m_Impact = 0;
+            landEv.setParameterByID(Impact_ID, m_Impact);
+        }
+        if(LandSoftSfx() && !LandHardSfx()) 
+        { 
+            m_Impact = 1;
+            landEv.setParameterByID(Impact_ID, m_Impact);
+        }
+        if (!LandSoftSfx() && LandHardSfx()) 
+        { 
+            m_Impact = 2;
+            landEv.setParameterByID(Impact_ID, m_Impact);
+        }
     }
 
     public void PlayPlayerLandSfx() {
@@ -62,14 +146,21 @@ public class SoundManager : MonoBehaviour
         switch (this.materialZone) {
             case MaterialZone.Zone.Grass:
                 id = SoundId.PlayerLandGrass;
+                m_Material = 0;
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByID(Material_ID, m_Material);
                 break;
             case MaterialZone.Zone.Rock:
                 id = SoundId.PlayerLandRock;
+                m_Material = 1;
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByID(Material_ID, m_Material);
+                landEv.start();
                 break;
             case MaterialZone.Zone.Wood:
+                m_Material = 2;
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByID(Material_ID, m_Material);
+                landEv.start();
                 id = SoundId.PlayerLandWood;
                 break;
-
             default:
                 return;
         }
@@ -79,15 +170,25 @@ public class SoundManager : MonoBehaviour
 
     public void PlayPlayerStepSfx() {
         SoundId id = SoundId.None;
+
         switch (this.materialZone) {
             case MaterialZone.Zone.Grass:
                 id = SoundId.PlayerStepGrass;
+                m_Material = 0;
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByID(Material_ID, m_Material);
+                footstepsEv.start();
                 break;
             case MaterialZone.Zone.Rock:
                 id = SoundId.PlayerStepRock;
+                m_Material = 1;
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByID(Material_ID, m_Material);
+                footstepsEv.start();
                 break;
             case MaterialZone.Zone.Wood:
                 id = SoundId.PlayerStepWood;
+                m_Material = 2;
+                FMODUnity.RuntimeManager.StudioSystem.setParameterByID(Material_ID, m_Material);
+                footstepsEv.start();
                 break;
 
             default:
